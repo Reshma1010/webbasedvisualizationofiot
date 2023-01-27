@@ -1,0 +1,132 @@
+﻿@model IEnumerable<App.MVC.ViewModels.SensorVM>
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        <div class="row">
+            <div class="col-lg-12">
+                <table class="table table-bordered table-sm" id="tableSensor">
+                    <thead class="bg-success text-white">
+                        <tr>
+                            <th>Sensor Id</th>
+                            <th hidden>Serial Number</th>
+                            <th>Designation</th>
+                            <th>Active</th>
+                            <th>Sensor Device</th>
+                            <th>Floor No</th>
+                            <th>Room No</th>
+                            <th>Assign/Unassign Room</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(var item in Model){
+                        <tr>
+                            <td>@item.Id</td>
+                            <td hidden>@item.SerialNumber</td>
+                            <td>@item.Designation</td>
+                            <td>@item.Active</td>
+                            <td>@item.SensorDevice</td>
+                            <td>@item.FloorNo</td>
+                            <td>@item.RoomNo</td>
+                            <td class="text-center">
+                                <span class="text-center">
+                                    <a class="btn btn-primary btn-sm btn-update-coordinates" 
+                                       data-sensorid="@item.Id" 
+                                       data-bs-toggle="modal" 
+                                       data-bs-target="#info-modal"
+                                    >Update Coordinates</a>
+                                </span>
+                                <span class="text-center">
+                                    <a class="btn btn-success btn-sm btnAssign" 
+                                       data-sensorid="@item.Id" 
+                                       data-bs-toggle="modal" 
+                                       data-bs-target="#info-modal"
+                                    >Assign</a>
+                                </span>
+                                @if (item.RoomNo != null)
+                                {
+                                    <span class="text-center">
+                                        <a class="btn btn-danger btn-sm btnUnassign" data-sensorid="@item.Id">Unassign</a></span>
+                                }
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#tableSensor').DataTable();
+    });
+    $(".btnAssign").click(function () {
+        var rootUrl = window.location.origin;
+        if(rootUrl != "https://localhost:7192"){
+	        rootUrl += "/VisualizingSensors";
+        }
+        
+        $('.modal-dialog').css('max-width', '40%');
+        $("#info-modal").find(".modal-title").html("Assign Room Number");
+        $(".modal-title").css('margin-left', '170px');
+        $(".modal-dialog").css('margin-top', '80px');
+        var sensorID = $(this).data("sensorid");
+        $.ajax({
+            url: rootUrl + '/Quasi/GetByID',
+            type: 'GET',
+            data: { id: sensorID,floorNo:2 },
+            success: function (result) {
+                
+                $("#info-modal").find(".modal-body").html(result);
+            },
+            error: function (error) {
+            }
+        });
+    });
+    $(".btn-update-coordinates").click(function () {
+        var rootUrl = window.location.origin;
+        if(rootUrl != "https://localhost:7192"){
+	        rootUrl += "/VisualizingSensors";
+        }
+        
+        $('.modal-dialog').css('max-width', '40%');
+        $("#info-modal").find(".modal-title").html("Update Coordinates");
+        $(".modal-title").css('margin-left', '170px');
+        $(".modal-dialog").css('margin-top', '80px');
+        var sensorID = $(this).data("sensorid");
+        $.ajax({
+            url: rootUrl + '/Quasi/GetSensorCoordinates',
+            type: 'GET',
+            data: { id: sensorID },
+            success: function (result) {
+                
+                $("#info-modal").find(".modal-body").html(result);
+            },
+            error: function (error) {
+            }
+        });
+    });
+    $(".btnUnassign").click(function () {
+        var rootUrl = window.location.origin;
+        if (rootUrl != "https://localhost:7192") {
+            rootUrl += "/VisualizingSensors";
+        }
+        var sensorID = $(this).data("sensorid");
+        $.ajax({
+            url: rootUrl + '/Quasi/UnassignRoomToSensor',
+            type: 'POST',
+            data: { sensorId: sensorID},
+            success: function (result) {
+                if(result==1){
+                    alert("Unassign Room To Sensor successfully");
+                    setTimeout(location.reload.bind(location), 1000);
+                }
+            },
+            error: function (error) {
+            }
+        });
+    });
+</script>

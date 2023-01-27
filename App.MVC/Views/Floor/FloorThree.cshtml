@@ -1,0 +1,259 @@
+﻿@model App.MVC.ViewModels.SensorDataVM
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/css/floorthree.css" rel="stylesheet" />
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/floorthree.js"></script>
+<section>
+    <div id="overlay">
+        <div id="text"> Loading...</div>
+    </div>
+    <h4 class="text-center"> Web based visualization for floor 3<span id="test"></span></h4>
+    <div id="graph" class="graph">
+        @foreach (var item in Model.BeaconSensor!)
+        {
+            <div id="@Html.Raw($"beacon-{item.Id}")" class="material-icons beacon-sensor" style="transform:translate(@(item.Xaxis)px,@(item.Yaxis)px)"
+                 data-beaconid="@Html.Raw(item.Id)"
+                 data-bs-toggle="modal"
+                 data-bs-target="#info-modal"
+                 data-toggle="tooltip"
+                 data-placement="top"
+                 title="@item.SensorId">
+                star
+            </div>
+        }
+        @foreach (var item in Model.StationarySensor!)
+        {
+            var roomNum = item.RoomNo;
+            var style = $"transform:translate({item.MarginLeft}px,{item.MarginTop}px);";
+            var title = $"{item.Value}\n{item.Unit}";
+            if (item.IsAbove == true)
+            {
+                <div id="@Html.Raw($"quasi-{roomNum}")" class="material-icons quasi-sensor aboveTooltip" style=@style
+                     data-room="@roomNum"
+                     data-quasiid="@Html.Raw(item.IdSensor)"
+                     data-bs-toggle="modal"
+                     data-bs-target="#info-modal"
+                     data-container="body"
+                     data-html="true"
+                     title='@title'>
+                    quasi
+                </div>
+            }
+            else
+            {
+                <div id="@Html.Raw($"quasi-{roomNum}")" class="material-icons quasi-sensor belowTooltip" style=@style
+                     data-quasiid="@Html.Raw(item.IdSensor)"
+                     data-room="@roomNum"
+                     data-bs-toggle="modal"
+                     data-bs-target="#info-modal"
+                     data-container="body"
+                     data-html="true"
+                     title="@title">
+                    quasi
+                </div>
+            }
+        }
+        <div id="door-8" class="door-sensor material-icons" style="transform:translate(787px,249px)" data-doorid="8" data-bs-toggle="modal" data-bs-target="#info-modal" data-toggle="tooltip" data-placement="top" title="Opened">meeting_room</div>
+        <div id="door-9" class="door-sensor material-icons" style="transform:translate(666px,285px)" data-doorid="9" data-bs-toggle="modal" data-bs-target="#info-modal" data-toggle="tooltip" data-placement="top" title="Opened">meeting_room</div>
+        <div id="door-10" class="door-sensor material-icons" style="transform:translate(597px,275px)" data-doorid="10" data-bs-toggle="modal" data-bs-target="#info-modal" data-toggle="tooltip" data-placement="top" title="Opened">meeting_room</div>
+        <div id="door-11" class="door-sensor material-icons" style="transform:translate(369px,168px)" data-doorid="11" data-bs-toggle="modal" data-bs-target="#info-modal" data-toggle="tooltip" data-placement="top" title="Opened">meeting_room</div>
+        <div id="door-12" class="door-sensor material-icons" style="transform:translate(345px,239px)" data-doorid="12" data-bs-toggle="modal" data-bs-target="#info-modal" data-toggle="tooltip" data-placement="top" title="Opened">meeting_room</div>
+        <div id="door-13" class="door-sensor material-icons" style="transform:translate(517px,271px)" data-doorid="13" data-bs-toggle="modal" data-bs-target="#info-modal" data-toggle="tooltip" data-placement="top" title="Opened">meeting_room</div>
+        <div id="door-14" class="door-sensor material-icons" style="transform:translate(966px,298px);" data-doorid="14" data-bs-toggle="modal" data-bs-target="#info-modal" data-toggle="tooltip" data-placement="top" title="Opened">meeting_room</div>
+        <div class="row">
+            <div class="col-lg-10">
+                <div class="room-container">
+                    <div class="room" style="transform:rotate(15deg)">
+                        <div class="room-bar"></div>
+                        <div id="room" class="sensor"></div>
+                        <div class="door-down-faced"></div>
+                        <div class="door-name"><p>301 <br />Office</p></div>
+                    </div>
+                    <div class="room" style=" transform: rotate(14deg); margin-bottom: -23px; margin-left: -8px;">
+                        <div class="room-bar"></div>
+                        <div class="door-down-faced"></div>
+                        <div class="door-name"><p>303 <br />Office</p></div>
+                    </div>
+                    <div class="room" style=" transform: rotate(13deg); margin-bottom: -44px; margin-left: -7px;">
+                        <div class="room-bar"></div>
+                        <div class="door-down-faced"></div>
+                        <div class="door-name"><p>304 <br />Office</p></div>
+                    </div>
+                    <div class="room remove-border-right" style="width: 270px;transform: rotate(12deg);margin-bottom: -82px;margin-left: -9px;">
+                        <div class="room-bar"></div>
+                        <div class="door-down-faced door-left-end"></div>
+                        <div class="door-down-faced door-right-end"></div>
+                        <div class="door-name"><p>306 <br />Practical Training</p></div>
+                    </div>
+                    <div class="cross-room crossed" style="transform: rotate(11deg); margin-bottom: -113px; margin-left: -7px;">
+                        <div class="room-bar room-bar-left"></div>
+                    </div>
+                    <div class="room room-big" style="transform: rotate(10deg); margin-bottom: -133px; margin-left: -6px;">
+                        <div class="room-bar"></div>
+                        <div class="door-down-faced door-right-end"></div>
+                        <div class="door-name">
+                            <p>
+                                310 <br />Automated Screening
+                            </p>
+                        </div>
+                    </div>
+                    <div class="cross-room crossed" style="transform: rotate(9deg); margin-bottom: -152px; margin-left: -6px;">
+                        <div class="room-bar room-bar-left"></div>
+                    </div>
+                    <div class="room room-small" style="transform: rotate(8deg); margin-bottom: -161px; margin-left: -5px;">
+                        <div class="room-bar"></div>
+                        <div class="door-down-faced"></div>
+                        <div class="door-name"><p>311 <br />Bio Preparation</p></div>
+                    </div>
+                    <div class="room room-big" style=" transform: rotate(7deg); margin-bottom: -179px; margin-left: -5px;">
+                        <div class="door-down-faced door-top-faced-right" style="margin-top: 46px;"></div>
+                        <div class="door-down-faced door-down-faced-right door-right-end"></div>
+                        <div class="door-name"><p>312 <br />Bio Screening</p></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-1">
+                <div class="material-icons sensor-door" style="margin-left:80px">meeting_room</div>
+                <div class="material-icons sensor-door" style="margin-left:80px">sensor_door</div>
+                <div class="material-icons sensor-beacon" style="margin-left:80px">star</div>
+                <div class="sensor-quasi mt-2" style="margin-left:85px"></div>
+            </div>
+            <div class="col-lg-1 text-left" style="font-size:11px">
+                <div class="mt-1">Door Opened</div>
+                <div class="mt-3">Door Closed</div>
+                <div class="mt-2">Beacons</div>
+                <div class="mt-2">Stationary</div>
+            </div>
+        </div>
+        <div class="bottom-bar-left"></div>
+        <div class="bottom-bar-right" style="height: 66px;top: 401px;margin-left: 1148px;margin-top: 23px;transform: rotate(4deg);"></div>
+        <div class="row">
+            <div class="col-lg-10">
+                <div class="room-container" style="margin-top: 70px;">
+                    <div class="room remove-border-right" style="transform: rotate(15deg); margin-left: -50px;">
+                        <div class="room-bar room-bar-bottom"></div>
+                        <div class="door-down-faced door-top-faced"></div>
+                        <div class="door-name" style="text-align:right"><p>302 <br />Office</p></div>
+                    </div>
+                    <div class="room remove-border-left" style="transform: rotate(14deg); margin-bottom: -23px;">
+                        <div class="room-bar room-bar-bottom"></div>
+                    </div>
+                    <div class="room remove-border-right" style="transform: rotate(13deg); margin-bottom: -44px; margin-left: -7px;">
+                        <div class="room-bar room-bar-bottom"></div>
+                        <div class="door-down-faced door-top-faced"></div>
+                        <div class="door-name" style="text-align:right"><p>305 <br />Conference Room</p></div>
+                    </div>
+                    <div class="room remove-border-left" style="transform: rotate(11deg); margin-bottom: -63px; margin-left: -5px;">
+                        <div class="room-bar room-bar-bottom"></div>
+                        <div class="door-down-faced door-top-faced"></div>
+                    </div>
+                    <div class="room" style=" transform: rotate(10deg); margin-bottom: -79px; margin-left: -6px;">
+                        <div class="room-bar room-bar-bottom"></div>
+                        <div class="door-down-faced door-top-faced"></div>
+                        <div class="door-name"><p>307 <br />Office</p></div>
+                    </div>
+                    <div class="room" style="transform: rotate(9deg); margin-bottom: -94px; margin-left: -6px;">
+                        <div class="room-bar room-bar-bottom"></div>
+                        <div class="door-down-faced door-top-faced"></div>
+                        <div class="door-name"><p>308 <br />Sample Preparation</p></div>
+                    </div>
+                    <div class="cross-room crossed" style="width: 20px; transform: rotate(9deg); margin-bottom: -103px; margin-left: -6px;"></div>
+                    <div class="room room-ic" style="transform: rotate(8deg); margin-bottom: -110px;">
+                        <div class="inner-ic">
+                            <div class="inner-ic inner-ic2">
+                            </div>
+                        </div>
+                        <div style="width: 100%;height: 60%;position: relative;top: 30%;">
+                            <div class="outer-ic">
+                            </div>
+                            <div style="width: 97%;height: 6px;position: relative;border: 1px solid;"></div>
+                            <div style="width: 97%;height: 6px;position: relative;border: 1px solid;"></div>
+                            <div style="width: 97%;height: 6px;position: relative;border: 1px solid;"></div>
+                            <div style="width: 97%;height: 6px;position: relative;border: 1px solid;"></div>
+                            <div style="width: 97%;height: 6px;position: relative;border: 1px solid;"></div>
+                            <div style="width: 97%;height: 6px;position: relative;border: 1px solid;"></div>
+                            <div style="width: 97%;height: 6px;position: relative;border: 1px solid;"></div>
+                            <div style="width: 97%;height: 6px;position: relative;border: 1px solid;"></div>
+                        </div>
+                    </div>
+                    <div class="room" style=" width: 200px; height: 104px; border-top: none; transform: rotate(7deg); margin-bottom: -16px; position: absolute; margin-top: 128px; margin-left: -8px;">
+                        <div style="display: flex; width: 100%; height: 100%;">
+                            <div style="width: 25%; height: 100%;">
+                                <div style="width: 100%; height: 50%; position: relative; border: 1px solid;">
+                                    <div class="ic-circle" style="top: 27%;"></div>
+                                    <div class="ic-circle" style="top: 60%;"></div>
+                                    <div style="width:25px;height:100%;">
+                                        <div class="door-down-faced ic-door-down-faced door-down-faced-right door-right-end"></div>
+                                        <div class="door-down-faced ic-door-top-faced door-top-faced ic_door-top-faced-right"></div>
+                                    </div>
+                                </div>
+                                <div style="width: 100%; height: 50%; position: relative; border-right: 1px solid;">
+                                </div>
+                            </div>
+                            <div style="width: 25%; height: 100%; border-right: 1px solid; border-top: 1px solid;">
+                                <div style="width: 100%; height: 50%;  position: relative;">
+                                    <div class="door-down-faced ic-door-down-faced door-down-faced-right door-right-end" style="right:17%"></div>
+                                </div>
+                                <div style="width: 100%; height: 50%; position: relative; border-top: 1px solid;">
+                                    <div style="width: 100%; height: 50%; border-bottom: 1px solid; position: relative;">
+                                        <div style="width: 25px; height: 10px; border: 1px solid; position: absolute; bottom: 14%; right: 0; border-radius: 14px; "></div>
+                                    </div>
+                                    <div style="width: 100%; height: 50%; position: relative;">
+                                        <div style="width: 25px; height: 10px; border: 1px solid; position: absolute; top: 16%; right: 0; border-radius: 14px; "></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="width: 25%; height: 100%; border-top: 1px solid;">
+                                <div style="width: 100%; height: 50%; position: relative; border-bottom: 1px solid;">
+                                    <div class="door-down-faced ic-door-down-faced door-right-end" style="left: 2px !important;"></div>
+                                    <div class="door-down-faced ic-door-top-faced door-top-faced" style="left: 2px !important; bottom: -3px; width: 32px; height: 32px; "></div>
+                                    <div style="width: 100%; height: 100%;border-right: 1px solid;">
+                                        <div style="width: 25px; height: 100%; border: 1px solid; height: 100%; border: 1px solid; position: absolute; right: -3px; border-right: 0px; ">
+                                            <div class="ic-circle" style="top: 27%;"></div>
+                                            <div class="ic-circle" style="top: 60%;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="width: 100%; height: 50%;border: 1px solid;border-left: 0px; border-bottom: 0px;">
+                                    <div style="width:100%;height:40%"></div>
+                                    <div style="width: 100%; height: 60%; display: flex; border-top: 1px solid;position:relative">
+                                        <div style="width:50%;border-right:1px solid;position:relative">
+                                            <div style="width: 10px; height: 25px; border: 1px solid; position: absolute; bottom: 0%; right: 25%; border-radius: 14px; "></div>
+                                        </div>
+                                        <div style="width: 50%;position:relative">
+                                            <div style="width: 10px; height: 25px; border: 1px solid; position: absolute; bottom: 0%; right: 25%; border-radius: 14px; "></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="width: 25%; height: 100%">
+                                <div style="width:100%;height:20%"></div>
+                                <div style="width: 100%; height: 100%;">
+                                    <div style="width:100%;height:80%;display:flex;position:relative">
+                                        <div style=" position: absolute; width: 75%; height: 70%; right: 0; top: 10%; background: #fff; z-index: 99; border: 1px solid;"></div>
+                                        <div style="width: 80%; height: 50%; border-right: 1px solid; border-top: 1px solid;"></div>
+                                        <div style="width: 20%; height: 80%; border-bottom: 1px solid; position: absolute; right: 0; z-index: 999; background: #fff;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cross-room crossed" style="transform: rotate(7deg);height: 115px;margin-bottom: -146px;margin-left: 189px;">
+                        <div class="room-bar room-bar-bottom" style="transform: rotate(-2deg);margin-bottom: 1px;"></div>
+                        <div class="door-down-faced door-top-faced door-right-end" style="transform: rotate(270deg); margin-left:55px; margin-top: -19px;"></div>
+                    </div>
+                    <div class="room" style="transform: rotate(6deg);margin-bottom: -151px;margin-left: -5px;width: 70px;height: 115px;border-right: 0 !important;">
+                        <div class="room-bar room-bar-bottom"></div>
+                    </div>
+                    <div class="room" style="width: 179px;transform: rotate(5deg);height: 110px;margin-bottom: -162px;margin-left: -7px;border-top: none;border-left: 0 !important;">
+                        <div class="door-name"><p>313<br />Automated Material Research</p></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-1"></div>
+        </div>
+    </div>
+</section>

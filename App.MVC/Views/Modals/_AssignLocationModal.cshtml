@@ -1,0 +1,83 @@
+﻿<style>
+</style>
+<div class="row">
+    <div class="col-lg-12">
+        <form>
+            <span id="message"></span>
+            <div class="form-group">
+                <label><b>Room No.</b></label>
+                <select class="form-select form-select-sm mb-3 mt-2" id="roomNo">
+                    <option value="">Select</option>
+                    <option value="201">201</option>
+                    <option value="202">202</option>
+                    <option value="203">203</option>
+                    <option value="204">204</option>
+                    <option value="205">205</option>
+                    <option value="206">206</option>
+                    <option value="207">207</option>
+                    <option value="208">208</option>
+                    <option value="209">209</option>
+                    <option value="211">211</option>
+                    <option value="212">212</option>
+                    <option value="213">213</option>
+                    <option value="301">301</option>
+                    <option value="302">302</option>
+                    <option value="303">303</option>
+                    <option value="304">304</option>
+                    <option value="305">305</option>
+                    <option value="306">306</option>
+                    <option value="307">307</option>
+                    <option value="308">308</option>
+                    <option value="310">310</option>
+                    <option value="311">311</option>
+                    <option value="312">312</option>
+                    <option value="313">313</option>
+                </select>
+            </div>
+@*            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="uncheckRoom" name="uncheckRoom" value="">
+                <label class="form-check-label">Unassign Room</label>
+            </div>*@
+            <button type="button" class="btn btn-success" id="btnSubmit">Submit</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    $("#btnSubmit").click(function () {
+        var rootUrl = window.location.origin;
+        if (rootUrl != "https://localhost:7192") {
+            rootUrl += "/VisualizingSensors";
+        }
+        
+        var RoomNo = parseInt($("#roomNo").val());
+        var SensorId = parseInt(@ViewBag.SensorId);
+     //   var checked = $('#uncheckRoom').val();
+        if (RoomNo>0) {
+            $.ajax({
+                url: rootUrl + '/Quasi/AssignRoomToSensor',
+                type: 'Post',
+                data: { roomNo: RoomNo, sensorId: SensorId },
+                success: function (result) {
+                    if(result==1){
+                        $("#message").removeClass("text-danger");
+                        $("#message").addClass("text-success");
+                        $("#message").html("Room No. assign to sensor successfully");
+                        setTimeout(location.reload.bind(location), 1000);
+                    }
+                    if(result==2){
+                        $("#message").removeClass("text-success");
+                        $("#message").addClass("text-danger");
+                        $("#message").html("Already maximum sensors exists in this Room No.");
+                    }
+                },
+                error: function (error) {
+                }
+            });
+        }
+        else{
+            $("#message").addClass("text-danger");
+            $("#message").html("Please select Room No.");
+        }
+    });
+</script>

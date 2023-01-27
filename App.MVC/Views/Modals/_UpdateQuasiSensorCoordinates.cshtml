@@ -1,0 +1,59 @@
+﻿@model App.MVC.ViewModels.SensorVM
+<style>
+</style>
+<div class="row">
+    <div class="col-lg-12">
+        <form>
+            <span id="message"></span>
+            <div>
+                <div class="form-group">
+                    <label><b>X (Height) :</b></label>
+                    <input class="" type="number" id="x-height" name="XHeight" value="@Model.Xheight">
+                </div>
+                <br/>
+                <div class="form-group">
+                    <label><b>Y (Width) :</b></label>
+                    <input class="" type="number" id="y-width" name="YWidth" value="@Model.YWidth">
+                </div>
+            </div>
+            <button type="button" class="btn btn-success" id="btnSubmit">Submit</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    $("#btnSubmit").click(function () {
+        var rootUrl = window.location.origin;
+        if (rootUrl != "https://localhost:7192") {
+            rootUrl += "/VisualizingSensors";
+        }
+
+        var xHeight = $("#x-height").val();
+        var yWidth = $("#y-width").val();
+        var SensorId = parseInt(@ViewBag.SensorId);
+        $.ajax({
+            url: rootUrl + '/Quasi/UpdateCoordinates',
+            type: 'Post',
+            data: { sensorId: SensorId, XHeight: xHeight, YWidth: yWidth },
+            success: function (result) {
+                if (result == 1) {
+                    $("#message").removeClass("text-danger");
+                    $("#message").addClass("text-success");
+                    $("#message").html("Coordinates of the sensor updated successfully");
+                    setTimeout(location.reload.bind(location), 1000);
+                }
+                else {
+                    $("#message").removeClass("text-success");
+                    $("#message").addClass("text-danger");
+                    $("#message").html("Something went wrong, please try again later.");
+                }
+            },
+            error: function (error) {
+            }
+        });
+    });
+</script>@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}

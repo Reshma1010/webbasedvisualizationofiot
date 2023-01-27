@@ -1,0 +1,356 @@
+html {
+  font-size: 14px;
+}
+
+.tooltip-inner {
+    white-space: pre-wrap;
+    max-width: 100% !important;
+    font-size: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+.modal {
+    z-index: 9999;
+}
+
+.modal-dialog {
+    border: 5px solid blue;
+}
+.tooltip-inner {
+    max-width: 100px;
+    padding: 0.25rem 0.25rem;
+    color: white;
+    text-align: center;
+    background-color: black;
+    border-radius: 0.25rem;
+    z-index: 0
+}
+#overlay {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 99999;
+    cursor: pointer;
+}
+
+#text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 50px;
+    color: white;
+    z-index: 9;
+    transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+}
+.container {
+    padding: 0;
+    margin: 20px;
+}
+
+.room-container {
+    width: 1200px;
+    height: 100px;
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 10px;
+    font-weight: bold;
+    margin-left: 100px;
+}
+
+.room {
+    width: 90px;
+    height: 100%;
+    border: 3px solid;
+    display: inline-block;
+    position: relative;
+    margin-left: -4px;
+}
+
+.door-down-faced {
+    z-index: 9;
+    background: #fff;
+    position: absolute;
+    bottom: -20px;
+    left: 25%;
+    height: 30px;
+    width: 30px;
+    border-width: 0px 2px 2px 2px;
+    border-style: solid solid double solid;
+    border-color: black #6a6868 black black;
+    border-radius: 0 0 46px 10px;
+}
+
+.door-top-faced {
+    top: -20px !important;
+    border-radius: 0px 36px 0 0px !important;
+    border-width: 1px 2px 0px 2px !important;
+}
+
+.door-down-faced-right {
+    border-radius: 0 0px 6px 23px !important;
+}
+
+.door-top-faced-right {
+    top: 12px !important;
+    left: -30px !important;
+    position: absolute !important;
+    border-radius: 11px 0px 0 41px !important;
+    border-width: 1px 0px 1px 2px !important;
+}
+
+.door-left-end {
+    left: 9% !important;
+}
+
+.door-right-end {
+    left: 77% !important;
+}
+
+.remove-border-left {
+    border-left: 0 !important;
+}
+
+.remove-border-right {
+    border-right: 0 !important;
+}
+
+.bottom-bar-left {
+    position: absolute;
+    height: 81px;
+    top: 220px;
+    margin-left: 75px;
+    border: 2px solid;
+    transform: rotate(15deg);
+}
+
+.bottom-bar-right {
+    position: absolute;
+    height: 55px;
+    top: 410px;
+    margin-left: 1178px;
+    border: 2px solid;
+    transform: rotate(6deg);
+}
+
+.room-big {
+    width: 200px !important;
+}
+
+.room-small {
+    width: 95px !important;
+}
+
+.sensor-mobile {
+    width: 18px;
+    height: 18px;
+    border: 1px solid;
+    position: relative;
+    background: green;
+    border-color: dodgerblue;
+}
+
+.sensor-robot {
+    font-size: 25px;
+    position: relative;
+    color: blue;
+}
+
+.sensor-door {
+    font-size: 25px;
+    position: relative;
+    color: red
+}
+
+.door-sensor {
+    font-size: 25px;
+    position: absolute;
+    color: red;
+    z-index: 3;
+}
+
+.beacon-sensor {
+    font-size: 25px;
+    position: absolute;
+    color: green;
+    z-index: 6;
+}
+
+.sensor-beacon {
+    font-size: 25px;
+    position: relative;
+    color: green;
+}
+
+.mobile-sensor {
+    width: 18px;
+    height: 18px;
+    border: 1px solid;
+    position: absolute;
+    background: green;
+    border-color: dodgerblue;
+    z-index: 5;
+}
+
+.quasi-sensor {
+    width: 20px;
+    height: 18px;
+    border: 1px solid;
+    position: absolute;
+    border-radius: 50%;
+    background: blue;
+    border-color: dodgerblue;
+    z-index: 4;
+}
+
+.sensor-quasi {
+    width: 20px;
+    height: 18px;
+    border: 1px solid;
+    position: relative;
+    bottom: 0%;
+    left: 0%;
+    border-radius: 50%;
+    background: blue;
+    border-color: dodgerblue;
+}
+
+.robot-sensor {
+    font-size: 25px;
+    position: absolute;
+    color: blue;
+    z-index: 6;
+}
+
+.cross-room {
+    margin-left: -4px;
+    width: 30px;
+    height: 100%;
+    border: 3px solid;
+    display: inline-block;
+    position: relative;
+}
+
+.crossed {
+    background: linear-gradient(to top left, rgba(0,0,0,0) 0%, rgba(0,0,0,0) calc(50% - 0.8px), rgba(0,0,0,1) 50%, rgba(0,0,0,0) calc(50% + 0.8px), rgba(0,0,0,0) 100%);
+}
+
+.room-bar {
+    width: 30px;
+    height: 6px;
+    background: #000;
+    position: absolute;
+    right: -13px;
+    top: -8px;
+}
+
+.room-bar-bottom {
+    top: unset;
+    bottom: -8px;
+}
+
+.room-bar-left {
+    right: -30px;
+    width: 50px;
+}
+
+.outer-ic {
+    width: 75%;
+    height: 75%;
+    border: 1px solid;
+    position: absolute;
+    left: 11%;
+}
+
+.inner-ic {
+    border: 1px solid;
+    position: absolute;
+    height: 61%;
+    width: 63%;
+    left: 17%;
+    background: #fff;
+    z-index: 9;
+}
+
+.inner-ic2 {
+    top: 2px;
+    height: 95%;
+    width: 92%;
+    left: 3px;
+}
+
+.room-ic {
+    border: 0px;
+    border-bottom: 1px solid;
+    border-right: 1px solid;
+}
+
+.ic-circle {
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    border: 1px solid;
+    position: absolute;
+    left: 5%;
+}
+
+.ic-door-down-faced {
+    bottom: unset;
+    left: unset !important;
+    top: -1px;
+    right: 0px;
+}
+
+.ic-door-top-faced {
+    top: unset !important;
+    bottom: -1px;
+    left: 35% !important;
+    width: 36px;
+    height: 29px;
+}
+
+.ic_door-top-faced-right {
+    border-radius: 29px 2px 1px 0px !important;
+}
+
+.door-name {
+    position: absolute;
+    text-align: center;
+    top: 30%;
+    width: 100%;
+}
+
+.graph {
+    border: 3px solid;
+    width: 1300px;
+    height: 560px;
+}
+
+.popover {
+    border: 5px solid blue;
+    height: 50px;
+    width: 115px;
+}
+
+.modal-dialog {
+    border: 5px solid blue;
+}
